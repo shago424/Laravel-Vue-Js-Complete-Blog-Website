@@ -9,6 +9,8 @@ use App\SubCateGory;
 use App\Frontend;
 class PublicBlogController extends Controller
 {
+
+
     public function allblogpost()
     {
       $posts = Content::with('user','category','subcategory')->orderBy('id','DESC')->get();

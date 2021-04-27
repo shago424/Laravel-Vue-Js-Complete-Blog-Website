@@ -18,4 +18,8 @@ class SubCategory extends Model
     	return $this->hasManay('App\Content','sub_category_id', 'id');
     }
 
+     public function post(){
+    	return $this->hasManay('App\Post','sub_category_id', 'id');
+    }
+
 }

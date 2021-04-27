@@ -40,7 +40,7 @@
                   </p>
                   <div class="bottom-article">
                     <ul class="meta-post">
-                      <li><i class="icon-calendar"></i><a href="#"> {{ post.created_at }}</a></li>
+                      <li><i class="icon-calendar"></i><a href="#"> {{ post.created_at | timeformat}}</a></li>
                       <li v-if="post.user"><i class="icon-user"></i><a href="#"> {{ post.user.name }}</a></li>
                       <li v-if="post.category"><i class="icon-folder-open"></i><a href="#">{{ post.category.name }}</a></li>
                       <li ><i class="icon-comments"></i><a href="#">4 Comments</a></li>

@@ -17,4 +17,8 @@ class Category extends Model
     public function content(){
     	return $this->hasManay('App\Content','category_id', 'id');
     }
+
+    public function post(){
+    	return $this->hasManay('App\Post','category_id', 'id');
+    }
 }

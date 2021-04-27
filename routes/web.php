@@ -17,11 +17,17 @@ Route::get('/', function () {
     return view('public.index');
 });
 
+
+
 Route::get('/allblogPost', 'PublicBlogController@allblogpost')->name('allblogpost');
 Route::get('/singlePost/{id}', 'PublicBlogController@singlepostById')->name('singlepost');
 Route::get('/categoryIdByPost/{id}', 'PublicBlogController@categoryIdByPost')->name('categoryIdByPost');
 Route::get('/SearchPost/', 'PublicBlogController@SearchPost')->name('SearchPost');
 Route::get('/latestPost', 'PublicBlogController@latestpost')->name('latestpost');
+
+
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -57,6 +63,14 @@ Route::get('/editcontent/{id}', 'ContentController@edit')->name('content.edit');
 Route::post('/contentUpdate/{id}', 'ContentController@update')->name('content.update');
 Route::get('/contentDelete/{id}', 'ContentController@destroy')->name('content.delete');
 
+// Post Route
+
+Route::get('/postList', 'PostController@index')->name('post.list');
+Route::post('/post-add', 'PostController@store')->name('post.store');
+Route::get('/editpost/{id}', 'PostController@edit')->name('post.edit');
+Route::post('/postUpdate/{id}', 'PostController@update')->name('post.update');
+Route::get('/postDelete/{id}', 'PostController@destroy')->name('post.delete');
+
 // get subCategoy From Category
 Route::get('/getSubcategoryByCategoryId/{id}', 'ContentController@getSubcategoryByCategoryId')->name('content.getSubcategoryByCategoryId');
 
@@ -68,6 +82,9 @@ Route::post('/user-add', 'UserController@store')->name('user.store');
 Route::get('/edituser/{id}', 'UserController@edit')->name('user.edit');
 Route::post('/userUpdate/{id}', 'UserController@update')->name('user.update');
 Route::get('/userDelete/{id}', 'UserController@destroy')->name('user.delete');
+
+
+
 
 
 // Role Route
@@ -96,3 +113,5 @@ Route::post('/fronthf-add', 'FrontendController@store')->name('fronthf.store');
 Route::get('/editfronthf/{id}', 'FrontendController@edit')->name('fronthf.edit');
 Route::post('/fronthfUpdate/{id}', 'FrontendController@update')->name('fronthf.update');
 Route::get('/fronthfDelete/{id}', 'FrontendController@destroy')->name('fronthf.delete');
+Route::get('/{anypath}', 'HomeController@index')->where('path','.*');
+

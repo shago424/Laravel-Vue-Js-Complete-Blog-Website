@@ -19,6 +19,12 @@ import addcontent from './components/admin/content/contentadd.vue';
 import listcontent from './components/admin/content/contentlist.vue';
 import editcontent from './components/admin/content/contentedit.vue';
 
+// Post Component
+
+import addpost from './components/admin/post/postadd.vue';
+import listpost from './components/admin/post/postlist.vue';
+import editpost from './components/admin/post/postedit.vue';
+
 // User Component
 
 import adduser from './components/admin/user/useradd.vue';
@@ -65,6 +71,11 @@ export const  routes = [
     { path: '/add-content', component: addcontent },
     { path: '/list-content', component: listcontent },
     { path: '/edit-content/:contentId', component: editcontent },
+
+    // Post Route
+    { path: '/add-post', component: addpost },
+    { path: '/list-post', component: listpost },
+    { path: '/edit-post/:postId', component: editpost },
 
     // User Route
     { path: '/add-user', component: adduser },

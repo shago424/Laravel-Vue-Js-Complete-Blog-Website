@@ -49,6 +49,15 @@ import storeInfo from './store/store';
 const store = new Vuex.Store(
   storeInfo
   )
+// Moment Js Support
+import moment from 'moment';
+Vue.filter('timeformat',(arg)=>{
+  return moment(arg).format("DD-MM-YYYY")
+})
+Vue.filter('shortlength',(text,length,suffix)=>{
+  return text.substring(0,length)+suffix;
+})
+// Vue Filter
 
 // Ckedditor Support
 import CKEditor from 'ckeditor4-vue';

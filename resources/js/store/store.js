@@ -4,6 +4,7 @@ export default{
     category:[],
     subcategory:[],
     content:[],
+    post:[],
     user:[],
     role:[],
     permission:[],
@@ -24,6 +25,9 @@ export default{
     },
     contentList(state){
       return state.content
+    },
+     postList(state){
+      return state.post
     },
     userList(state){
       return state.user
@@ -69,6 +73,11 @@ export default{
     getcontentList(context){
       axios.get('/contentList').then((response)=>{
         context.commit('contentList',response.data.contentsList) 
+      }) 
+    },
+     getpostList(context){
+      axios.get('/postList').then((response)=>{
+        context.commit('postList',response.data.postsList) 
       }) 
     },
 
@@ -138,6 +147,9 @@ export default{
 
      contentList(state,responseData){
       return state.content = responseData;
+     },
+     postList(state,responseData){
+      return state.post = responseData;
      },
 
      userList(state,responseData){

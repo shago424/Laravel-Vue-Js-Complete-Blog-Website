@@ -12,7 +12,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-              <li class="breadcrumb-item active">Content</li>
+              <li class="breadcrumb-item active">Post List</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,17 +27,17 @@
 
           <!-- /.col-md-6 -->
           <div class="col-lg-12">
-            <div class="panel panel-primary panel-outline" style="border:solid 3px crimson;">
-              <div class="panel-header" style="background:crimson;color:#fff">
-              <h5 class="card-title p-2 font-weight-bold">Content List</h5>
+            <div class="panel panel-primary panel-outline" style="border:solid 3px #34495E;">
+              <div class="panel-header" style="background:#34495E;color:#fff">
+              <h5 class="card-title p-2 font-weight-bold">Post List</h5>
                <div class="text-right p-2">
-               <router-link to="/add-content" class="btn btn-info font-weight-bold">Add Content</router-link>
+               <router-link to="/add-post" class="btn btn-warning font-weight-bold">Add Post</router-link>
               </div>
               </div>
               <div class="panel-body p-3">
                 <table class="table table-bordered table-sm table-hover">
                   <thead>
-                    <tr class="bg-success">
+                    <tr style="background:#E6B0AA">
                       
                       <th>#</th>
                       <th>ID</th>
@@ -45,30 +45,32 @@
                       <th>Sub Category Name</th>
                       <th>Title</th>
                       <th>Description</th>
+                      <th>Tag</th> 
                       <th>Video Link</th> 
-                      <th>Crated At</th>                    
-                      <th >Status</th>
+                      <th>Link</th>
+                      <th>Created At</th>        
+                      <th>Status</th>
                       <th>Image</th>
                       <th >Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for = "(contentlist,index) in getcontentList" :key="contentlist.id">
+                    <tr v-for = "(postlist,index) in getpostList" :key="postlist.id">
                       <td>{{ index+1 }}</td>
-                      <td>{{ contentlist.id}}</td>
-                      <td>{{ contentlist.category.name }}</td>
-                      <td>{{ contentlist.subcategory.name }}</td>
-                      <td>{{ contentlist.title }}</td>
-                      <td>{{ contentlist.description | shortlength(20,".......") }}</td>
-                      <td>{{ contentlist.video_link}}</td>
-                      <td width="10%">{{ contentlist.created_at | timeformat}}
-                      <td>{{ contentlist.status}}
-                       
-                      </td>
-                      <td>{{ contentlist.status }}</td>
-                      <td class="text-center" width="10%">
-                      <router-link :to="`/edit-content/${contentlist.id}`" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></router-link>
-                       <a @click.prevent="contentDelete(contentlist.id)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                      <td>{{ postlist.id}}</td>
+                      <td>{{ postlist.category.name }}</td>
+                   
+                      <td>{{ postlist.title | shortlength(50,".......")}}</td>
+                      <td>{{ postlist.description | shortlength(50,".......") }}</td>
+                      <td>{{ postlist.tag}}</td>
+                      <td>{{ postlist.video_link}}</td>
+                      <td>{{ postlist.link}}</td>
+                      <td width="10%">{{ postlist.created_at | timeformat}}</td>
+                      <td>{{ postlist.status }}</td>
+                      <td width="10%"><img :src="`upload/postimage/${postlist.image}`" alt="" width="50px" height="50px" /></td>
+                      <td class="text-center" width="12%">
+                      <router-link :to="`/edit-post/${postlist.id}`" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></router-link>
+                       <a @click.prevent="postDelete(postlist.id)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                       </td>
 
                     </tr>
@@ -97,27 +99,27 @@
 
 <script>
 export default {
-  name:'contentlist',
+  name:'postlist',
 
     mounted(){
       // From Category List
-      this.$store.dispatch('getcontentList')
+      this.$store.dispatch('getpostList')
     },
 
     computed:{
-      getcontentList(){
-       return this.$store.getters.contentList 
+      getpostList(){
+       return this.$store.getters.postList 
       }
     },
  
 
   methods: {
-   contentDelete(id){
-    axios.get('/contentDelete/'+id).then((response)=>{
-      this.$store.dispatch('getcontentList')
+   postDelete(id){
+    axios.get('/postDelete/'+id).then((response)=>{
+      this.$store.dispatch('getpostList')
         Toast.fire({
               icon: 'success',
-              title: 'Content Deleted Successfully'
+              title: 'Post Deleted Successfully'
           })
     })
    }
