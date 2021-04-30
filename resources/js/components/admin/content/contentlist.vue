@@ -61,10 +61,8 @@
                       <td>{{ contentlist.title }}</td>
                       <td>{{ contentlist.description | shortlength(20,".......") }}</td>
                       <td>{{ contentlist.video_link}}</td>
-                      <td width="10%">{{ contentlist.created_at | timeformat}}
-                      <td>{{ contentlist.status}}
-                       
-                      </td>
+                      <td width="10%">{{ contentlist.created_at | timeformat}}</td>
+                      <td>{{ contentlist.status}}</td>
                       <td>{{ contentlist.status }}</td>
                       <td class="text-center" width="10%">
                       <router-link :to="`/edit-content/${contentlist.id}`" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></router-link>

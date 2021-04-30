@@ -34,20 +34,17 @@
                <router-link to="/add-post" class="btn btn-warning font-weight-bold">Add Post</router-link>
               </div>
               </div>
-              <div class="panel-body p-3">
+              <div class="panel-body p-3" style="background:#FAFAF9">
                 <table class="table table-bordered table-sm table-hover">
                   <thead>
-                    <tr style="background:#E6B0AA">
+                    <tr style="background:#138D75;color:#fff">
                       
                       <th>#</th>
                       <th>ID</th>
-                      <th>Category Name</th>
-                      <th>Sub Category Name</th>
+                      <th>CatName</th>
+                      <th>Sub Name</th>
                       <th>Title</th>
                       <th>Description</th>
-                      <th>Tag</th> 
-                      <th>Video Link</th> 
-                      <th>Link</th>
                       <th>Created At</th>        
                       <th>Status</th>
                       <th>Image</th>
@@ -59,16 +56,14 @@
                       <td>{{ index+1 }}</td>
                       <td>{{ postlist.id}}</td>
                       <td>{{ postlist.category.name }}</td>
-                   
+                       <td>{{ postlist.subcategory.name }}</td>
                       <td>{{ postlist.title | shortlength(50,".......")}}</td>
                       <td>{{ postlist.description | shortlength(50,".......") }}</td>
-                      <td>{{ postlist.tag}}</td>
-                      <td>{{ postlist.video_link}}</td>
-                      <td>{{ postlist.link}}</td>
+                      
                       <td width="10%">{{ postlist.created_at | timeformat}}</td>
                       <td>{{ postlist.status }}</td>
-                      <td width="10%"><img :src="`upload/postimage/${postlist.image}`" alt="" width="50px" height="50px" /></td>
-                      <td class="text-center" width="12%">
+                      <td width="6%"><img :src="`upload/postimage/${postlist.image}`" alt="" width="50px" height="50px" /></td>
+                      <td class="text-center" width="8%">
                       <router-link :to="`/edit-post/${postlist.id}`" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></router-link>
                        <a @click.prevent="postDelete(postlist.id)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
                       </td>
@@ -116,11 +111,29 @@ export default {
   methods: {
    postDelete(id){
     axios.get('/postDelete/'+id).then((response)=>{
+       Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
       this.$store.dispatch('getpostList')
-        Toast.fire({
-              icon: 'success',
-              title: 'Post Deleted Successfully'
-          })
+     
+        // Toast.fire({
+        //       icon: 'success',
+        //       title: 'Post Deleted Successfully'
+        //   })
     })
    }
   }

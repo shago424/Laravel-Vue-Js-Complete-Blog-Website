@@ -42,63 +42,75 @@
                     <div class="col-md-4">
                         <div class="form-group">
                     <label for="name"> Category Name</label>
-                    <select type="text" v-model="form.category_id"  name="category_id"  class="form-control"  @change ="getSubCategory" :class="{ 'is-invalid': form.errors.has('category_id') }">
+                    <select type="text" v-model="category_id"  name="category_id"  class="form-control"  @change ="getSubCategory">
                       <option value="">Select Category</option>
                       <option :value="category.id" v-for="category in getCategoryList" :key="category.id">{{ category.name }}</option>
                     </select>
-                   <has-error :form="form" field="category_id"></has-error>
+                   <div class="text-danger" v-if = "errors && errors.category_id">{{errors.category_id[0] }}</div>
                   </div>
                     </div>
 
                      <div class="col-md-4">
                         <div class="form-group">
                     <label for="name"> Sub Category Name</label>
-                    <select type="text" v-model="form.sub_category_id"  name="sub_category_id"  class="form-control" id="sub_category_id" :class="{ 'is-invalid': form.errors.has('sub_category_id') }">
+                    <select type="text" v-model="sub_category_id"  name="sub_category_id"  class="form-control" id="sub_category_id" >
                       <option value="">Select Sub Category</option>
                       <option :value="sub_category.id" v-for="sub_category in subCategory" :key="sub_category.id">{{ sub_category.name }}</option>
                     </select>
-                  <has-error :form="form" field="sub_category_id"></has-error>
+                  <div class="text-danger" v-if = "errors && errors.sub_category_id">{{errors.sub_category_id[0] }}</div>
                   </div>
+                    </div>
+
+
+                     <div class="col-md-4">
+                        <div class="form-group">
+                        <label for="name">Featured</label>
+                        <select type="text" v-model="featured"  name="featured"  class="form-control" id="featured" >
+                          <option value="">Select Featured</option>
+                           <option value="argent">Argent</option>
+                            <option value="slider">Slider</option>
+                    </select>
+                         <div class="text-danger" v-if = "errors && errors.featured">{{errors.featured[0] }}</div>
+                          </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
                     <label for="title">Title</label>
-                    <input v-model="form.title"  type="text" name="title"  class="form-control"  id="title" placeholder="Enter Title":class="{ 'is-invalid': form.errors.has('title') }">
-                   <has-error :form="form" field="title"></has-error>
+                    <input v-model="title"  type="text" name="title"  class="form-control"  id="title" placeholder="Enter Title">
+                   <div class="text-danger" v-if = "errors && errors.title">{{errors.title[0] }}</div>
                   </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
                     <label for="tag">Tag</label>
-                    <input v-model="form.tag"  type="text" name="tag"  class="form-control"  id="tag" placeholder="Enter Tag" :class="{ 'is-invalid': form.errors.has('tag') }">
-                   <has-error :form="form" field="tag"></has-error>
+                    <input v-model="tag"  type="text" name="tag"  class="form-control"  id="tag" placeholder="Enter Tag">
+                   <div class="text-danger" v-if = "errors && errors.tag">{{errors.tag[0] }}</div>
                   </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
                     <label for="video_link">Video Link</label>
-                    <input v-model="form.video_link"  type="text" name="video_link"  class="form-control"  id="video_link" placeholder="Enter Video Link" :class="{ 'is-invalid': form.errors.has('video_link') }">
-                   <has-error :form="form" field="video_link"></has-error>
+                    <input v-model="video_link"  type="text" name="video_link"  class="form-control"  id="video_link" placeholder="Enter Video Link">
+                   <div class="text-danger" v-if = "errors && errors.video_link">{{errors.video_link[0] }}</div>
                   </div>
                     </div>
 
                     <div class="col-md-4">
                       <div class="form-group">
                     <label for="link">Link</label>
-                    <input v-model="form.link"  type="text" name="link"  class="form-control"  id="link" placeholder="Enter Link":class="{ 'is-invalid': form.errors.has('link') }">
-                   <has-error :form="form" field="link"></has-error>
+                    <input v-model="link"  type="text" name="link"  class="form-control"  id="link" placeholder="Enter Link">
+                   <div class="text-danger" v-if = "errors && errors.link">{{errors.link[0] }}</div>
                   </div>
                     </div>
 
                      <div class="col-md-4">
                        <div class="form-group">
                     <label for="file">Image</label>
-                        <input  type="file" name="image" class="form-control" id="image" @change="changePhoto($event)" :class="{ 'is-invalid': form.errors.has('image') }">
-                        <img :src="form.image" width="50px" height="50px" alt="">
-                    <has-error :form="form" field="image"></has-error>
+                        <input  type="file" name="image" class="form-control" id="image" @change="getimage">
+                    <div class="text-danger" v-if = "errors && errors.image">{{errors.image[0] }}</div>
                   </div>
                     
                     </div>
@@ -106,8 +118,8 @@
                       <div class="col-md-4">
                        <div class="form-group">
                     <label for="file">File</label>
-                        <input  type="file" name="file" class="form-control" id="file" @change="getFile" :class="{ 'is-invalid': form.errors.has('file') }">
-                   <has-error :form="form" field="file"></has-error>
+                        <input  type="file" name="file" class="form-control" id="file" @change="getFile">
+                    <div class="text-danger" v-if = "errors && errors.file">{{errors.file[0] }}</div>
                   </div>
                     
                     </div>
@@ -117,16 +129,15 @@
                     <label for="status pr-5"> Status  </label> 
                     <br>
                    <div class="form-check form-check-inline pl-3">
-                    <input class="form-check-input" type="radio" id="active" value="1" v-model="form.status">
+                    <input class="form-check-input" type="radio" id="active" value="1" v-model="status">
                     <label class="form-check-label" for="active">Active</label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="inactive" value="0" v-model="form.status">
+                    <input class="form-check-input" type="radio" id="inactive" value="0" v-model="status">
                     <label class="form-check-label" for="inactive">Inactive</label>
                   </div>
-                   <span :class="{ 'is-invalid': form.errors.has('status') }"></span>
-                  <has-error :form="form" field="status"></has-error>
+                  <div class="text-danger" v-if = "errors && errors.status">{{errors.status[0] }}</div>
                   
                   </div>
                     </div>
@@ -136,8 +147,8 @@
                     <div class="col-md-12">
                       <div class="form-group">
                     <label for="description">Description</label>
-                    <ckeditor v-model="form.description" :config="editorConfig" name="description" :class="{ 'is-invalid': form.errors.has('description') }"></ckeditor>
-                  <has-error :form="form" field="description"></has-error>
+                    <ckeditor v-model="description" :config="editorConfig" name="description"></ckeditor>
+                   <div class="text-danger" v-if = "errors && errors.description">{{errors.description[0] }}</div>
                   </div>
                     
                     </div>
@@ -191,7 +202,6 @@ export default {
 
 data () {
     return {
-      form: new Form({
        subCategory:[],
        category_id: '',
        title: '',
@@ -203,10 +213,14 @@ data () {
        image: '',
        link: '',
        tag: '',
-       
-      })
+       featured:'',
+       errors:{},
+      
 
-    
+     editorData: '<p>content of the editor.</p>',
+        editorConfig: {
+            // The configuration of the editor.
+        },
       // Create a new form instance
 
     }
@@ -228,27 +242,44 @@ data () {
 
     },
 
+     getimage(e){
+      this.image = e.target.files[0];
+      if(this.image.size > 2000000){
+    Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Files Is Larger than 2mb!',
+ 
+    })
+    
+   }
 
-     changePhoto(event){
-      let file = event.target.files[0];
-      let reader = new FileReader();
-      reader.onload = event =>{
-        this.form.image = event.target.result
-      };
-      reader.readAsDataURL(file);
-   },
+  },
 
-  
-getSubCategory(){
+    getSubCategory(){
       axios.get('/getSubcategoryByCategoryId/'+this.category_id).then((response)=>{
         this.subCategory = response.data.subCategoryList;
       })
     },
 
 
-      postSave () {
-      // Submit the form via a POST request
-      this.form.post('/post-add')
+    postSave () {
+      let form = new FormData;
+      form.append('file',this.file);
+      form.append('category_id',this.category_id);
+      form.append('sub_category_id',this.sub_category_id);
+      form.append('title',this.title);
+      form.append('description',this.description);
+      form.append('status',this.status);
+      form.append('video_link',this.video_link);
+      form.append('tag',this.tag);
+      form.append('image',this.image);
+      form.append('link',this.link);
+      form.append('featured',this.featured);
+      
+
+
+      axios.post('/post-add',form)
             .then(({response }) =>{ 
             this.$router.push('/list-post');
             
@@ -257,14 +288,21 @@ getSubCategory(){
               title: 'Post Added Successfully'
           })
              
-          this.form.name = null;
+          this.form.title = null;
           this.form.category_id = null;
+           this.form.image = null;
+          this.form.sub_category_id = null;
+           this.form.description = null;
+          this.form.video_link = null;
+           this.form.tag = null;
+          this.form.link = null;
+          this.form.file = null;
+          this.form.featured = null;
                   
-        }).catch(() =>{
-
+        }).catch(error =>{
+          this.errors = error.response.data.errors;
         });
     }
-  
   }
 };
 </script>

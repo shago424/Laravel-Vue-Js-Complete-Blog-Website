@@ -61,6 +61,19 @@
                   </div>
                     </div>
 
+
+                     <div class="col-md-4">
+                        <div class="form-group">
+                        <label for="name">Featured</label>
+                        <select type="text" v-model="form.featured"  name="featured"  class="form-control" id="featured" :class="{ 'is-invalid': form.errors.has('featured') }">
+                          <option value="">Select Featured</option>
+                           <option value="argent">Argent</option>
+                            <option value="slider">Slider</option>
+                    </select>
+                         <has-error :form="form" field="featured"></has-error>
+                          </div>
+                    </div>
+
                     <div class="col-md-4">
                       <div class="form-group">
                     <label for="title">Title</label>
@@ -200,6 +213,7 @@ data () {
        image: '',
        link: '',
        tag: '',
+       featured: '',
        errors:{},
       
 
@@ -261,6 +275,7 @@ data () {
       form.append('tag',this.tag);
       form.append('image',this.image);
       form.append('link',this.link);
+      form.append('link',this.featured);
       
 
 
@@ -282,6 +297,7 @@ data () {
            this.form.tag = null;
           this.form.link = null;
           this.form.file = null;
+          this.form.featured = null;
                   
         }).catch(error =>{
           this.errors = error.response.data.errors;

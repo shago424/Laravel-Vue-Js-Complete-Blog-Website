@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-      $posts = Post::with('category')->with('subcategory')->get();
+      $posts = Post::with('category')->with('subcategory')->orderBy('id','DESC')->get();
       return response()->json(['postsList'=>$posts],200);
     }
 
@@ -45,7 +45,7 @@ class PostController extends Controller
             'title' => 'required',
             'description' => 'required',
             'tag' => 'required',
-            // 'file' => 'required|dimensions:max_width=250,max_height=500|mimes:jpg,jpeg,docs,pdf,zip|max:2048:size:300',
+            'image' => 'required|mimes:jpg,jpeg,png|max:2048',
              // 'image' => 'required|max:2048',
              'status'=>'required',
         ]);
@@ -55,6 +55,7 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->video_link = $request->video_link;
         $post->link = $request->link;
+        $post->featured = $request->featured;
         $post->tag = $request->tag;
         $post->sub_category_id = $request->sub_category_id;
         $post->category_id = $request->category_id;
@@ -101,8 +102,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $contentById = Content::find($id);
-        return response()->json(['viewData'=>$contentById],200);
+        $postById = Post::find($id);
+        return response()->json(['viewData'=>$postById],200);
     }
 
     /**
@@ -123,23 +124,34 @@ class PostController extends Controller
             'status'=>'required',
              'file' => 'max:2048',
         ]);
-        $content = Content::find($id);
-        $content->title = $request->title;
-        $content->description = $request->description;
-        $content->video_link = $request->video_link;
-        $content->sub_category_id = $request->sub_category_id;
-        $content->category_id = $request->category_id;
-        $content->status = $request->status;
-        $content->slug = $this->slug_generator($request->name);
-        $content->updated_by = Auth::user()->id;
+        $post = post::find($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->video_link = $request->video_link;
+        $post->link = $request->link;
+        $post->featured = $request->featured;
+        $post->tag = $request->tag;
+        $post->sub_category_id = $request->sub_category_id;
+        $post->category_id = $request->category_id;
+        $post->status = $request->status;
+        $post->slug = $this->slug_generator($request->title);
+        $post->updated_by = Auth::user()->id;
+
         if ($request->file('file')){
           $file = $request->file('file');
-            @unlink(public_path('upload/contentimage/'.$data->image));
+            @unlink(public_path('upload/postfile/'.$data->image));
           $filename =date('Ymd').$file->getClientOriginalName();
-          $file->move(public_path('upload/contentimage'), $filename);
-          $content['file'] = $filename;
+          $file->move(public_path('upload/postfile'), $filename);
+          $post['file'] = $filename;
         }
-        $content->save();
+         if ($request->file('image')){
+          $file = $request->file('image');
+            @unlink(public_path('upload/postimage/'.$data->image));
+          $filename =date('Ymd').$file->getClientOriginalName();
+          $file->move(public_path('upload/postimage'), $filename);
+          $post['image'] = $filename;
+        }
+        $post->save();
         return ['status'=>'success'];
     }
 
@@ -149,9 +161,9 @@ class PostController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(content $content, $id)
+    public function destroy(post $post, $id)
     {
-        Content::destroy($id);
+        Post::destroy($id);
         return ['status'=>'success'];
     }
 
